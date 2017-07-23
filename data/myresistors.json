@@ -7,7 +7,6 @@
 ,{"f_value" : "1k","value" : "10000","tolerance" : "1","comment" : "SK"}
 ,{"f_value" : "6k","value" : "60000","tolerance" : "5","comment" : "RB4"}
 ,{"f_value" : "360k","value" : "3600000","tolerance" : "1","comment" : "NA"}
-,{"f_value" : "100","value" : "100","tolerance" : "1","comment" : "SK"}
 ,{"f_value" : "100k","value" : "1000000","tolerance" : "5","comment" : "NA"}
 ,{"f_value" : "249","value" : "249","tolerance" : "1","comment" : "NA"}
 ,{"f_value" : "1k","value" : "10000","tolerance" : "5","comment" : "SK"}
@@ -141,6 +140,7 @@
 ,{"f_value" : "9k09","value" : "909000","tolerance" : "5","comment" : "Rack"}
 ,{"f_value" : "5k49","value" : "549000","tolerance" : "5","comment" : "Rack"}
 ,{"f_value" : "300R","value" : "3000","tolerance" : "1","comment" : "RB9"}
+,{"f_value" : "100R","value" : "1000","tolerance" : "1","comment" : "RB9"}
 ,{"f_value" : "68R","value" : "680","tolerance" : "5","comment" : "RB9"}
 ,{"f_value" : "1R5","value" : "15","tolerance" : "1","comment" : "RB7"}
 ,{"f_value" : "2R","value" : "20","tolerance" : "1","comment" : "RB7"}
