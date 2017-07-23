@@ -8,7 +8,10 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-csv2json": "^0.2.5",
     "gulp-inject": "^4.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-transform": "^2.0.0",
     "stream-series": "^0.1.1",
     "wiredep": "^4.0.0",
     "wiredep-cli": "^0.1.0"

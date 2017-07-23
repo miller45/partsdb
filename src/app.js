@@ -13,7 +13,11 @@ app.config(['$routeProvider',
         }).
         when('/parts/:partId', {
             templateUrl: 'partials/part-detail.html',
-            controller: 'PhoneDetailCtrl'
+            controller: 'partsDetailsController'
+        }).
+        when('/resistors', {
+            templateUrl: 'partials/resistors.html',
+            controller: 'resistorsController'
         }).
         when('/about',{
             templateUrl: 'partials/about.html',
