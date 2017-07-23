@@ -1,12 +1,13 @@
 var gulp = require('gulp');
-
+var series = require('stream-series');
 var inject = require('gulp-inject');
 
 gulp.task('index', function () {
     var target = gulp.src('./index.html');
-    var sources = gulp.src(['./src/**/*.js', './assets/**/*.css'], {read: false});
+    var main = gulp.src(['./src/app.js'], {read: false});
+    var sources = gulp.src(['./src/**/*.js','!./src/app.js', './assets/**/*.css'], {read: false});
     return target.pipe(
-        inject(sources,
+        inject(series(main,sources),
             {
                 addRootSlash: false
             }
