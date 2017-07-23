@@ -9,6 +9,7 @@
           </mappings>
           <excludedPaths>
             <excludedPath path="bower_components" />
+            <excludedPath path="node_modules" />
           </excludedPaths>
         </serverdata>
       </paths>
