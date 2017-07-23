@@ -1,0 +1,25 @@
+<h4>Parts</h4>
+<p>{{message}}</p>
+<table st-table="dispCollection" st-safe-src="rowCollection" class="table table-striped">
+<thead>
+	<tr>
+		<th st-sort="batch">Batch</th>
+		<th st-sort="article">Artikel</th>
+		<th st-sort="description">Beschreibung</th>
+		<th>Bestand</th>
+		<th>Klasse</th>
+	</tr>
+	<tr>
+		<th colspan="4"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
+	</tr>
+</thead>
+<tbody>
+	<tr ng-repeat="part in dispCollection">
+		<td>{{part.batch}}</td>
+		<td>{{part.artnr}}</td>
+		<td>{{part.description}}</td>
+		<td>{{part.stock}}</td>
+		<td>{{part.class}}</td>
+	</tr>
+</tbody>
+</table>

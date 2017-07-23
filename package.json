@@ -1,0 +1,20 @@
+{
+  "name": "partsdb",
+  "version": "1.0.0",
+  "description": "electronic parts database",
+  "main": "app.js",
+  "dependencies": {
+    "wiredep": "^4.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-inject": "^4.2.0",
+    "wiredep": "^4.0.0",
+    "wiredep-cli": "^0.1.0"
+  },
+  "scripts": {
+    "wiredep": ""
+  },
+  "author": "",
+  "license": "NOLICENSE"
+}

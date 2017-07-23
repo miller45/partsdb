@@ -1,0 +1,55 @@
+<!doctype html>
+<html ng-app="partsdb">
+
+<head>
+  <meta charset="UTF-8">
+  <title>PartsDB</title>
+
+  <!-- production
+
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.js"></script>
+  -->
+
+  <!-- development -->
+
+  <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
+
+  <!-- -->
+
+  <!-- inject:css -->
+  <link rel="stylesheet" href="assets/animations.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <!-- endinject -->
+
+</head>
+
+<body>
+
+<ul class="nav nav-tabs">
+  <li><a href="#/">Home</a></li>
+  <li><a href="#/parts">Parts</a></li>
+  <li><a href="#/resistors"></a></li>
+  <li><a href="#/about">About</a></li>
+</ul>
+<div class="view-animate-container">
+  <div ng-view class="view-animate"></div>
+</div>
+</body>
+
+<!-- inject:js -->
+<script src="src/app.js"></script>
+<script src="src/partsdb.js"></script>
+<!-- endinject -->
+</html>

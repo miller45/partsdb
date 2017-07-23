@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="fisch">
+        <serverdata>
+          <mappings>
+            <mapping deploy="ng" local="$PROJECT_DIR$" web="/ng" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="bower_components" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
