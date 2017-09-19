@@ -1,0 +1,1 @@
+collect=[]; $('.myarticlelist li.itemdata ul').each(function(i,e){ var desc$=$(this).find('li.description'); var artnr=desc$.find('a').text(); var desc=desc$.contents().filter(function(){ return this.nodeType === 3; }).first().text(); if(desc.length>0){ collect.push({artnr:artnr,desc:desc}) }  });
