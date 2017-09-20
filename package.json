@@ -11,11 +11,13 @@
     "gulp-inject": "^4.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-transform": "^2.0.0",
+    "http-server": "^0.10.0",
     "stream-series": "^0.1.1",
     "wiredep": "^4.0.0"
   },
   "scripts": {
-    "build": "npm gulp"
+    "build": "npm gulp",
+    "start": "http-server ./"
   },
   "author": "",
   "license": "NOLICENSE"
