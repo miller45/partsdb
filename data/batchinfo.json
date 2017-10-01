@@ -73,39 +73,47 @@
         "orderdate":"2015-06-17"
     },
     {
-        "batchnr":120,
+        "batchnr":120,		
         "orderdate":"2015-10-08"
     },
     {
-        "batchnr":143,
+        "newbatchnr":143,
+		"batchnr":121,
         "orderdate":"2015-11-19"
     },
     {
-        "batchnr":144,
+        "newbatchnr":144,
+		"batchnr":122,
         "orderdate":"2016-02-11"
     },
     {
-        "batchnr":145,
+        "newbatchnr":145,
+		"batchnr":123,
         "orderdate":"2016-04-14"
     },
     {
-        "batchnr":146,
+        "newbatchnr":146,
+		"batchnr":124,
         "orderdate":"2016-05-05"
     },
     {
-        "batchnr":147,
+        "newbatchnr":147,
+		"batchnr":125,
         "orderdate":"2016-07-27"
     },
     {
-        "batchnr":148,
+        "newbatchnr":148,
+		"batchnr":126,
         "orderdate":"2016-09-01"
     },
     {
-        "batchnr":149,
+        "newbatchnr":149,
+		"batchnr":127,
         "orderdate":"2016-09-15"
     },
     {
-        "batchnr":150,
+        "newbatchnr":150,
+		"batchnr":128,
         "orderdate":"2016-11-18"
     },
     {
