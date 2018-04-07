@@ -4,20 +4,13 @@ app.controller('partsController',function($scope,$http,partservice){
     $scope.rowCollection=[];
     $http({
         method: 'GET',
-        url: 'data/batchinfo.json'
-    }).then(function(batchResponse){
-        $scope.batchinfo=batchResponse.data.batchinfo;
-        $http({
-            method: 'GET',
-            url: 'data/parts.json'
-        }).then(function(partsResponse){        
-            $scope.rowCollection=partsResponse.data.parts;        
-            $scope.dispCollection = [].concat($scope.rowCollection);
-        },function(e){
-            alert(e);
-        });
+        url: 'data/parts.json'
+    }).then(function(response){
+        $scope.rowCollection=response.data.parts;
+        $scope.dispCollection = [].concat($scope.rowCollection);
+		$scope.predicates= ['batch','artnr','description','class','value1','value2'];		 
+		$scope.selectedPredicate = scope.predicates[0];
     },function(e){
         alert(e);
-    })
-    
+    });
 });

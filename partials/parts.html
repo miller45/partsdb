@@ -1,5 +1,9 @@
 <h4>Parts</h4>
 <p>{{message}}</p>
+<form>
+	<label for="predicate">selected predicate:</label>
+	<select class="form-control" id="predicate" ng-model="selectedPredicate" ng-options="predicate for predicate in predicates"></select>
+</form>
 <table st-table="dispCollection" st-safe-src="rowCollection" class="table table-striped">
 <thead>
 	<tr>
@@ -7,9 +11,13 @@
 		<th st-sort="article">Artikel</th>
 		<th st-sort="description">Beschreibung</th>
 		<th>Bestand</th>
-		<th st-sort="class">Klasse</th>
+		<th>Klasse</th>
+		<th>Mark</th>
 	</tr>
 	<tr>
+		<th colspan="2">
+			<input st-search="{{selectedPredicate}}" placeholder="search {{selectedPredicate}}" class="input-sm form-control" type="search"/>
+		</th>
 		<th colspan="4"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
 	</tr>
 </thead>
@@ -20,6 +28,7 @@
 		<td>{{part.description}}</td>
 		<td>{{part.stock}}</td>
 		<td>{{part.class}}</td>
+		<td>{{part.mark}}</td>
 	</tr>
 </tbody>
 </table>

@@ -12,8 +12,8 @@
 ,{"f_value" : "1k","value" : "10000","tolerance" : "5","comment" : "SK"}
 ,{"f_value" : "1","value" : "1","tolerance" : "1","comment" : "SK"}
 ,{"f_value" : "22","value" : "22","tolerance" : "5","comment" : "SK"}
-,{"f_value" : "1k1","value" : "11000","tolerance" : "0.1","comment" : "25ppm (RB4)"}
-,{"f_value" : "2k2","value" : "22000","tolerance" : "0.1","comment" : "25ppm (RB4)"}
+,{"f_value" : "1k1","value" : "11000","tolerance" : "0.1","comment" : "RB4 (25ppm)"}
+,{"f_value" : "2k2","value" : "22000","tolerance" : "0.1","comment" : "RB4 (25ppm)"}
 ,{"f_value" : "1","value" : "1","tolerance" : "5","comment" : "RB3"}
 ,{"f_value" : "9.1","value" : "9.1","tolerance" : "5","comment" : "RB3"}
 ,{"f_value" : "150","value" : "150","tolerance" : "5","comment" : "RB3"}
@@ -45,7 +45,7 @@
 ,{"f_value" : "49k9","value" : "499000","tolerance" : "1","comment" : "RB2"}
 ,{"f_value" : "357k","value" : "3570000","tolerance" : "1","comment" : "RB2"}
 ,{"f_value" : "60.4k","value" : "40000","tolerance" : "1","comment" : "RB2"}
-,{"f_value" : "6.66k","value" : "660000","tolerance" : "0.5","comment" : "50 ppm RB2"}
+,{"f_value" : "6.66k","value" : "660000","tolerance" : "0.5","comment" : "RB2(50 ppm)"}
 ,{"f_value" : "1M1","value" : "11000000","tolerance" : "1","comment" : "RB2"}
 ,{"f_value" : "1M2","value" : "12000000","tolerance" : "1","comment" : "RB2"}
 ,{"f_value" : "1M5","value" : "15000000","tolerance" : "1","comment" : "RB2"}
@@ -147,4 +147,16 @@
 ,{"f_value" : "2R5","value" : "25","tolerance" : "1","comment" : "RB7"}
 ,{"f_value" : "3R","value" : "30","tolerance" : "1","comment" : "RB7"}
 ,{"f_value" : "8R2","value" : "82","tolerance" : "1","comment" : "RB7"}
+,{"f_value" : "0R56","value" : "56","tolerance" : "5","comment" : "RB8"}
+,{"f_value" : "3K24","value" : "324000","tolerance" : "1","comment" : "RB8 (50ppm )"}
+,{"f_value" : "40K2","value" : "402000","tolerance" : "1","comment" : "RB8 (50ppm )"}
+,{"f_value" : "5K1","value" : "51000","tolerance" : "1","comment" : "RB8"}
+,{"f_value" : "374K","value" : "3740000","tolerance" : "1","comment" : "RB8"}
+,{"f_value" : "64K9","value" : "649000","tolerance" : "1","comment" : "RB8 (50ppm)"}
+,{"f_value" : "24K9","value" : "249000","tolerance" : "1","comment" : "RB8 (50ppm)"}
+,{"f_value" : "47K5","value" : "475000","tolerance" : "1","comment" : "RB8 (50ppm)"}
+,{"f_value" : "15K","value" : "150000","tolerance" : "5","comment" : "RB8"}
+,{"f_value" : "2K7","value" : "27000","tolerance" : "1","comment" : "RB8"}
+,{"f_value" : "39K2","value" : "392000","tolerance" : "1","comment" : "RB8 (100ppm)"}
+,{"f_value" : "51K1","value" : "511000","tolerance" : "1","comment" : "RB8"}
 ]
