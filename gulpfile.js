@@ -28,5 +28,5 @@ gulp.task('resistor-csv2json', function () {
         .pipe(grename({extname: '.json'}))
         .pipe(gulp.dest('data'))
 });
-
-gulp.task('default',['resistor-csv2json','index']);
+//'resistor-csv2json'
+gulp.task('default',['index']);
