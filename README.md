@@ -1,2 +1,0 @@
-# partsdb
-electronic parts database
