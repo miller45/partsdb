@@ -1,11 +1,8 @@
 var app = angular.module('partsdb');
-app.controller('resistorsController',function($scope,$http,partservice){
+app.controller('resistorsController',function($scope,partservice){
     $scope.message="";
     $scope.rowCollection=[];
-    $http({
-        method: 'GET',
-        url: 'data/myresistors.json'
-    }).then(function(response){
+    partservice.getResistors().then(function(response){
         $scope.rowCollection=response.data;
         $scope.dispCollection = [].concat($scope.rowCollection);
     },function(e){
