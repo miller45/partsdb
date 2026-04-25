@@ -2,3 +2,7 @@
 
 bower_components/
 node_modules/
+#some idea files
+.idea/workspace.xml
+#ai
+.ai
