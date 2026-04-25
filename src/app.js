@@ -19,6 +19,10 @@ app.config(['$routeProvider',
             templateUrl: 'partials/resistors.html',
             controller: 'resistorsController'
         }).
+        when('/modules', {
+            templateUrl: 'partials/modules.html',
+            controller: 'modulesController'
+        }).
         when('/about',{
             templateUrl: 'partials/about.html',
             controller: 'aboutController'

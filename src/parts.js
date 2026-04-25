@@ -9,7 +9,7 @@ app.controller('partsController',function($scope,$http,partservice){
         $scope.rowCollection=response.data.parts;
         $scope.dispCollection = [].concat($scope.rowCollection);
 		$scope.predicates= ['batch','artnr','description','class','value1','value2'];		 
-		$scope.selectedPredicate = scope.predicates[0];
+		$scope.selectedPredicate = $scope.predicates[0];
     },function(e){
         alert(e);
     });
