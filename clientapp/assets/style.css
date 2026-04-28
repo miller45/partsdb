@@ -1,0 +1,12 @@
+
+th,td{
+   padding:0 4px 0 4px;
+}
+
+.st-sort-ascent:before{
+   content: '\25B2';
+}
+
+.st-sort-descent:before{
+   content: '\25BC';
+}

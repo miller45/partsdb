@@ -1,0 +1,11 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* You can add global styles to this file, and also import other style files */
+
+th, td {
+  padding: 0 4px;
+}
+
+thead th {
+  user-select: none;
+}
