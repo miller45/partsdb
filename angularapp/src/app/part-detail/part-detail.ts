@@ -19,13 +19,9 @@ export class PartDetail implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('partId') ?? '';
-    this.svc.getParts().subscribe(res => {
-      const found = res.parts.find(p => p.artnr === decodeURIComponent(id));
-      if (found) {
-        this.part.set(found);
-      } else {
-        this.notFound.set(true);
-      }
+    this.svc.getPartByArtnr(decodeURIComponent(id)).subscribe({
+      next: part => this.part.set(part),
+      error: () => this.notFound.set(true)
     });
   }
 }

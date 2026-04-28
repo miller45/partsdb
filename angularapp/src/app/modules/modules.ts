@@ -56,7 +56,7 @@ export class Modules implements OnInit {
   });
 
   ngOnInit(): void {
-    this.svc.getModules().subscribe(res => this.rows.set(res.modules));
+    this.svc.getModules().subscribe(modules => this.rows.set(modules));
   }
 
   sort(field: SortField): void {

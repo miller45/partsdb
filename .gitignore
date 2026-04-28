@@ -6,9 +6,6 @@ dist/
 # Angular CLI cache
 .angular/
 
-# Dependency lock files (generated, not hand-edited)
-
-
 # Logs
 *.log
 npm-debug.log*
@@ -33,3 +30,55 @@ ehthumbs.db
 
 # AI tools
 .ai
+
+# ── .NET ──────────────────────────────────────────────────────────────────────
+
+# Build output
+bin/
+obj/
+
+# User-specific Visual Studio / Rider files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Rider / JetBrains
+.idea/
+
+# NuGet
+*.nupkg
+*.snupkg
+# NuGet Symbol Packages
+*.snupkg
+# NuGet restore output (never commit the packages folder)
+packages/
+# NuGet lock file is intentionally committed in some projects;
+# uncomment the line below only if you prefer not to commit it:
+# packages.lock.json
+
+# .NET secrets / sensitive config overrides
+**/appsettings.Local.json
+**/appsettings.*.Local.json
+**/secrets.json
+# Azure Functions local settings (contains connection strings / keys)
+local.settings.json
+
+# Publish profiles & output
+**/Properties/PublishProfiles/
+publish/
+PublishOutput/
+
+# Entity Framework Core migrations snapshot (keep migrations, ignore designer)
+*.Designer.cs
+
+# Test results & coverage
+TestResults/
+coverage/
+*.coveragexml
+*.trx
+
+# dotnet tool manifest is fine to commit (.config/dotnet-tools.json)
+# but ignore the local tool install path
+.dotnet/

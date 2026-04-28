@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { PartsService } from '../parts';
 import { Part } from '../models/part.model';
-
 type SortField = keyof Part;
 type SortDir = 'asc' | 'desc' | '';
 
@@ -57,7 +56,7 @@ export class Parts implements OnInit {
   });
 
   ngOnInit(): void {
-    this.svc.getParts().subscribe(res => this.rows.set(res.parts));
+    this.svc.getParts().subscribe(parts => this.rows.set(parts));
   }
 
   sort(field: SortField): void {

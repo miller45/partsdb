@@ -1,25 +1,31 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Part, PartsResponse } from './models/part.model';
-import { Module, ModulesResponse } from './models/module.model';
+import { Part } from './models/part.model';
+import { Module } from './models/module.model';
 import { Resistor } from './models/resistor.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PartsService {
   private http = inject(HttpClient);
+  private apiUrl = environment.apiUrl;
 
-  getParts(): Observable<PartsResponse> {
-    return this.http.get<PartsResponse>('data/parts.json');
+  getParts(): Observable<Part[]> {
+    return this.http.get<Part[]>(`${this.apiUrl}/parts`);
   }
 
-  getModules(): Observable<ModulesResponse> {
-    return this.http.get<ModulesResponse>('data/modules.json');
+  getPartByArtnr(artnr: string): Observable<Part> {
+    return this.http.get<Part>(`${this.apiUrl}/parts/${encodeURIComponent(artnr)}`);
+  }
+
+  getModules(): Observable<Module[]> {
+    return this.http.get<Module[]>(`${this.apiUrl}/modules`);
   }
 
   getResistors(): Observable<Resistor[]> {
-    return this.http.get<Resistor[]>('data/myresistors.json');
+    return this.http.get<Resistor[]>(`${this.apiUrl}/resistors`);
   }
 }
