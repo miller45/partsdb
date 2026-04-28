@@ -1,4 +1,4 @@
- "partsdetails": [
+{ "partsdetails": [
 { ,  "artnr": "BSS 138 SMD" , "description": "Transistor SMD N-FET SOT-23 50V 0,22A", "stock": 20,"class":"N-FET" },
 { ,  "artnr": "FZT 751 TA" , "description": "ZETEX Transistor", "stock": 6,"class":"PNP" },
 { ,  "artnr": "FMMT 717 TA" , "description": "Zetex Transistor , SOT-23", "stock": 10 ,"class":"PNP" },

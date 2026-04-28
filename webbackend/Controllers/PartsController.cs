@@ -16,10 +16,10 @@ public class PartsController(PartsDataService dataService) : ControllerBase
         return Ok(parts);
     }
 
-    [HttpGet("{artnr}")]
+    [HttpGet("find")]
     [ProducesResponseType<Part>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetByArtnr(string artnr)
+    public async Task<IActionResult> GetByArtnr([FromQuery] string artnr)
     {
         var part = await dataService.GetPartByArtnrAsync(artnr);
         return part is null ? NotFound() : Ok(part);

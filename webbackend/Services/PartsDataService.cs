@@ -47,5 +47,34 @@ public class PartsDataService
         var resistors = await JsonSerializer.DeserializeAsync<List<Resistor>>(stream, JsonOptions);
         return resistors ?? [];
     }
+
+    public async Task<List<BatchInfo>> GetBatchInfoAsync()
+    {
+        var filePath = Path.Combine(_dataPath, "batchinfo.json");
+        await using var stream = File.OpenRead(filePath);
+        var response = await JsonSerializer.DeserializeAsync<BatchInfoResponse>(stream, JsonOptions);
+        return response?.Batchinfo ?? [];
+    }
+
+    public async Task<BatchInfo?> GetBatchByNrAsync(int batchnr)
+    {
+        var batches = await GetBatchInfoAsync();
+        return batches.FirstOrDefault(b => b.Batchnr == batchnr);
+    }
+
+    public async Task<List<PartDetail>> GetPartDetailsAsync()
+    {
+        var filePath = Path.Combine(_dataPath, "partsdetails.json");
+        await using var stream = File.OpenRead(filePath);
+        var response = await JsonSerializer.DeserializeAsync<PartDetailsResponse>(stream, JsonOptions);
+        return response?.Partsdetails ?? [];
+    }
+
+    public async Task<PartDetail?> GetPartDetailByArtnrAsync(string artnr)
+    {
+        var details = await GetPartDetailsAsync();
+        return details.FirstOrDefault(p =>
+            string.Equals(p.Artnr, artnr, StringComparison.OrdinalIgnoreCase));
+    }
 }
 

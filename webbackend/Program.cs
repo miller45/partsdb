@@ -1,4 +1,5 @@
 using PartsDb.Api.Services;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +37,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    // Swagger UI at /swagger
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/openapi/v1.json", "PartsDB API v1"));
+    // Scalar API UI at /scalar/v1  (replaces Swagger UI, compatible with .NET 9 OpenAPI)
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();

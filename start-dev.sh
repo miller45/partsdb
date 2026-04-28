@@ -57,8 +57,19 @@ cleanup() {
 trap cleanup INT TERM
 
 # ── Start backend ────────────────────────────────────────────────
+log "Building .NET backend…"
+( cd "$BACKEND_DIR" && dotnet build -c Debug --nologo -v quiet 2>&1 ) \
+  || { err "dotnet build failed – aborting."; exit 1; }
+
 log "Starting .NET backend  →  http://localhost:5287"
-( cd "$BACKEND_DIR" && dotnet run --launch-profile http 2>&1 | sed "s/^/$(printf '\033[0;36m')[API]$(printf '\033[0m') /" ) &
+# Run the compiled dll directly to avoid the inotify file-watcher limit
+(
+  cd "$BACKEND_DIR"
+  ASPNETCORE_ENVIRONMENT=Development \
+  ASPNETCORE_URLS="http://localhost:5287" \
+  dotnet bin/Debug/net9.0/PartsDb.Api.dll 2>&1 \
+    | sed "s/^/$(printf '\033[0;36m')[API]$(printf '\033[0m') /"
+) &
 BACKEND_PID=$!
 
 # Give the backend a moment to start before the browser opens

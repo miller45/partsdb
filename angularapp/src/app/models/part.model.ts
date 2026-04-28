@@ -2,7 +2,7 @@ export interface Part {
   batch: number;
   artnr: string;
   description: string;
-  stock: number;
+  stock: number | null;
   class?: string;
   value1?: string;
   value2?: string;

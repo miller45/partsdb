@@ -18,7 +18,7 @@ export class PartsService {
   }
 
   getPartByArtnr(artnr: string): Observable<Part> {
-    return this.http.get<Part>(`${this.apiUrl}/parts/${encodeURIComponent(artnr)}`);
+    return this.http.get<Part>(`${this.apiUrl}/parts/find`, { params: { artnr } });
   }
 
   getModules(): Observable<Module[]> {
