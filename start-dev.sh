@@ -25,13 +25,15 @@ warn() { echo -e "${YELLOW}[start-dev]${RESET} $*"; }
 err()  { echo -e "${RED}[start-dev]${RESET} $*" >&2; }
 
 # ── Resolve dotnet ────────────────────────────────────────────────
-if ! command -v dotnet &>/dev/null; then
+_has_sdk() { dotnet --list-sdks 2>/dev/null | grep -q .; }
+
+if ! command -v dotnet &>/dev/null || ! _has_sdk; then
   if [ -x "$HOME/.dotnet/dotnet" ]; then
     export DOTNET_ROOT="$HOME/.dotnet"
     export PATH="$HOME/.dotnet:$HOME/.dotnet/tools:$PATH"
     log "Using dotnet from \$HOME/.dotnet"
   else
-    err "dotnet not found. Install .NET SDK from https://aka.ms/dotnet-download"
+    err "dotnet SDK not found. Install .NET SDK from https://aka.ms/dotnet-download"
     exit 1
   fi
 fi
