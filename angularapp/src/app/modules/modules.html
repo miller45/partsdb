@@ -1,0 +1,44 @@
+<h4>Modules</h4>
+
+<div class="row mb-2">
+  <div class="col-md-4">
+    <div class="input-group">
+      <label class="input-group-text" for="predicate">Search by</label>
+      <select class="form-select" id="predicate"
+              [ngModel]="searchField()"
+              (ngModelChange)="onSearchFieldChange($event)">
+        @for (p of predicates; track p) {
+          <option [value]="p">{{ p }}</option>
+        }
+      </select>
+      <input class="form-control" type="search" placeholder="search {{ searchField() }}..."
+             [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)"/>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <input class="form-control" type="text" placeholder="global search..."
+           [ngModel]="globalSearch()" (ngModelChange)="globalSearch.set($event)"/>
+  </div>
+</div>
+
+<table class="table table-striped table-hover table-sm">
+  <thead class="table-dark">
+    <tr>
+      <th (click)="sort('artnr')" style="cursor:pointer">Article {{ sortIcon('artnr') }}</th>
+      <th (click)="sort('description')" style="cursor:pointer">Description {{ sortIcon('description') }}</th>
+      <th (click)="sort('stock')" style="cursor:pointer">Stock {{ sortIcon('stock') }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (mod of filtered(); track mod.artnr + mod.description) {
+      <tr>
+        <td>{{ mod.artnr }}</td>
+        <td>{{ mod.description }}</td>
+        <td>{{ mod.stock }}</td>
+      </tr>
+    }
+    @if (filtered().length === 0) {
+      <tr><td colspan="3" class="text-center text-muted">No results found.</td></tr>
+    }
+  </tbody>
+</table>

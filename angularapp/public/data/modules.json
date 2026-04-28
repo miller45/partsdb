@@ -1,0 +1,15 @@
+{
+  "modules":[
+    {
+      "artnr": "?",
+      "description": "SilentStep Stick TMC 2130",
+      "stock": 3
+    }
+    , {
+      "artnr": "?",
+      "description": "SilentStep Stick TMC 2100",
+      "stock": 3
+    }
+
+  ]
+}

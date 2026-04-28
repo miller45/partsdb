@@ -1,8 +1,35 @@
 # Build and Release Folders
-
 bower_components/
 node_modules/
-#some idea files
-.idea/workspace.xml
-#ai
+dist/
+
+# Angular CLI cache
+.angular/
+
+# Dependency lock files (generated, not hand-edited)
+
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment/secret files
+.env
+.env.*
+
+# IDE - IntelliJ / WebStorm
+.idea/
+
+# IDE - VS Code (keep shared settings, ignore personal/local ones)
+.vscode/launch.json
+.vscode/mcp.json
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# AI tools
 .ai

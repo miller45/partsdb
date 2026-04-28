@@ -1,0 +1,31 @@
+@if (part()) {
+  <h4>Part Detail</h4>
+  <dl class="row">
+    <dt class="col-sm-3">Article Nr</dt>
+    <dd class="col-sm-9">{{ part()!.artnr }}</dd>
+
+    <dt class="col-sm-3">Description</dt>
+    <dd class="col-sm-9">{{ part()!.description }}</dd>
+
+    <dt class="col-sm-3">Batch</dt>
+    <dd class="col-sm-9">{{ part()!.batch }}</dd>
+
+    <dt class="col-sm-3">Stock</dt>
+    <dd class="col-sm-9">{{ part()!.stock }}</dd>
+
+    @if (part()!.class) {
+      <dt class="col-sm-3">Class</dt>
+      <dd class="col-sm-9">{{ part()!.class }}</dd>
+    }
+    @if (part()!.mark) {
+      <dt class="col-sm-3">Mark</dt>
+      <dd class="col-sm-9">{{ part()!.mark }}</dd>
+    }
+  </dl>
+  <a class="btn btn-secondary" routerLink="/parts">← Back to Parts</a>
+} @else if (notFound()) {
+  <div class="alert alert-warning">Part not found.</div>
+  <a class="btn btn-secondary" routerLink="/parts">← Back to Parts</a>
+} @else {
+  <p>Loading...</p>
+}

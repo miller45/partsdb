@@ -1,0 +1,32 @@
+<h4>Resistors</h4>
+
+<div class="row mb-2">
+  <div class="col-md-4">
+    <input class="form-control" type="text" placeholder="global search..."
+           [ngModel]="globalSearch()" (ngModelChange)="globalSearch.set($event)"/>
+  </div>
+</div>
+
+<table class="table table-striped table-hover table-sm">
+  <thead class="table-dark">
+    <tr>
+      <th (click)="sort('f_value')" style="cursor:pointer">F-Value {{ sortIcon('f_value') }}</th>
+      <th (click)="sort('value')" style="cursor:pointer">Value {{ sortIcon('value') }}</th>
+      <th (click)="sort('tolerance')" style="cursor:pointer">Tolerance {{ sortIcon('tolerance') }}</th>
+      <th (click)="sort('comment')" style="cursor:pointer">Comment {{ sortIcon('comment') }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (r of filtered(); track r.f_value + r.comment) {
+      <tr>
+        <td>{{ r.f_value }}</td>
+        <td>{{ r.value }}</td>
+        <td>{{ r.tolerance }}</td>
+        <td>{{ r.comment }}</td>
+      </tr>
+    }
+    @if (filtered().length === 0) {
+      <tr><td colspan="4" class="text-center text-muted">No results found.</td></tr>
+    }
+  </tbody>
+</table>

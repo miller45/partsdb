@@ -5,7 +5,7 @@
       <paths name="opmv">
         <serverdata>
           <mappings>
-            <mapping deploy="/dockerroot/parts/partsdb/public-html" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/dockerroot/parts/partsdb/public-html" local="$PROJECT_DIR$/clientapp" web="/" />
           </mappings>
         </serverdata>
       </paths>
