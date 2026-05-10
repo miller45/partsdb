@@ -1,1 +1,15 @@
-var batch=150; collect=[]; $('.myarticlelist li.itemdata ul').each(function(i,e){ var amount=$(this).find('li.additional span').text().replace('Anzahl:',''); var desc$=$(this).find('li.description'); var artnr=desc$.find('a').text(); var desc=desc$.contents().filter(function(){ return this.nodeType === 3; }).first().text(); if(desc.length>0){ collect.push({batch:batch,artnr:artnr,description:desc,stock:parseInt(amount)}) }  });
+var batch = 168;
+collect = [];
+document.querySelectorAll('.myarticlelist li.itemdata ul.clearfix').forEach(function (i, e) {
+    let sub=i.querySelector('li.additional span');
+    if(sub!==null){
+        let ni= {batch: batch};
+        let amount = sub.innerText.replace('Anzahl:', '');
+        ni['amount'] = amount;
+        let desc$ = i.querySelector('li.description');
+        ni['artnr'] = desc$.querySelector('a span').innerText;
+        ni['description'] = desc$.querySelector('span.al_artinfo_link').innerText;
+        collect.push(ni);
+    }
+
+});
