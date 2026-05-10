@@ -18,21 +18,21 @@ resource "azurerm_resource_group" "main" {
 }
 
 # ---------------------------------------------------------------------------
-# App Service Plan (Linux) – hosts the .NET backend
+# App Service Plan (Windows) – D1 Shared / B1 Basic are Windows SKUs
 # ---------------------------------------------------------------------------
 resource "azurerm_service_plan" "backend" {
   name                = "${local.prefix}-asp"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  os_type             = "Linux"
+  os_type             = "Windows"
   sku_name            = var.app_service_sku
   tags                = local.common_tags
 }
 
 # ---------------------------------------------------------------------------
-# App Service – .NET 9 backend API
+# App Service – .NET 9 backend API (Windows)
 # ---------------------------------------------------------------------------
-resource "azurerm_linux_web_app" "backend" {
+resource "azurerm_windows_web_app" "backend" {
   name                = "${local.prefix}-api"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
@@ -41,15 +41,18 @@ resource "azurerm_linux_web_app" "backend" {
   tags                = local.common_tags
 
   site_config {
-    always_on = true
+    # always_on is not supported on F1/D1 (Free/Shared) tiers
+    always_on = false
 
     application_stack {
-      dotnet_version = var.dotnet_version
+      current_stack  = "dotnet"
+      # azurerm 3.x validation only lists up to v8.0, but ASP.NET Core is
+      # self-contained in the deployment package (WEBSITE_RUN_FROM_PACKAGE=1),
+      # so the actual .NET 9 runtime comes from the zip, not this setting.
+      dotnet_version = "v8.0"
     }
 
     cors {
-      # The Static Web App URL is known only after it is created, so we
-      # reference the output directly. Terraform resolves the dependency.
       allowed_origins = [
         "https://${azurerm_static_web_app.frontend.default_host_name}",
       ]
@@ -58,15 +61,20 @@ resource "azurerm_linux_web_app" "backend" {
   }
 
   app_settings = {
-    "ASPNETCORE_ENVIRONMENT"        = var.environment == "prod" ? "Production" : "Development"
-    "WEBSITE_RUN_FROM_PACKAGE"      = "1"
-    "AllowedOrigins__0"             = "https://${azurerm_static_web_app.frontend.default_host_name}"
+    "ASPNETCORE_ENVIRONMENT"   = var.environment == "prod" ? "Production" : "Development"
+    "WEBSITE_RUN_FROM_PACKAGE" = "1"
+    "AllowedOrigins__0"        = "https://${azurerm_static_web_app.frontend.default_host_name}"
+
+    # Microsoft Entra ID – injected at runtime so the API can validate JWT tokens.
+    # The dotnet config system maps double-underscore to the ':' separator,
+    # matching the AzureAd:TenantId / AzureAd:ClientId keys in appsettings.json.
+    "AzureAd__Instance" = "https://login.microsoftonline.com/"
+    "AzureAd__TenantId" = data.azurerm_client_config.current.tenant_id
+    "AzureAd__ClientId" = azuread_application.partsdb.client_id
+    "AzureAd__Audience" = "api://${data.azurerm_client_config.current.tenant_id}/${local.prefix}"
   }
 
   logs {
-    http_logs {
-      retention_in_days = 7
-    }
     application_logs {
       file_system_level = "Warning"
     }
