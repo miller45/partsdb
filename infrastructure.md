@@ -17,16 +17,41 @@ In this project I want to deploy a angular web (client) application in conjuctio
 
 # Slide 2: Architecture Overview
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+| Component | Azure Service | Terraform resource |
+|---|---|---|
+| Angular SPA | Static Web Apps (Free) | `azurerm_static_web_app` |
+| .NET 9 API | App Service (Linux B1) | `azurerm_linux_web_app` |
+| Resource group | Resource Group | `azurerm_resource_group` |
+
+All resources share the prefix `partsdb-prod-` and live in **West Europe**.
 
 ---
 
 # Slide 3: Implementation Details
 
-Sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
+**Terraform** (`infrastructure/`) manages all Azure resources as code.
+
+```bash
+cd infrastructure
+terraform init
+terraform plan
+terraform apply
+```
+
+**CI/CD** (GitHub Actions) automatically deploys on push to `main`:
+- `deploy-backend.yml` → publishes the .NET 9 API via publish-profile
+- `deploy-frontend.yml` → builds Angular and deploys to Static Web Apps via API token
+
+Required GitHub secrets: `AZURE_BACKEND_PUBLISH_PROFILE`, `AZURE_STATIC_WEB_APP_API_TOKEN`
 
 ---
 
 # Slide 4: Conclusion
 
-Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione sequi nesciunt.
+**First-time deployment checklist**
+
+1. Copy `infrastructure/terraform.tfvars.example` → `terraform.tfvars` and fill in values
+2. Run `terraform init && terraform apply` to provision Azure resources
+3. Download the App Service **publish profile** and add as `AZURE_BACKEND_PUBLISH_PROFILE` secret
+4. Copy the Static Web App **API token** (Terraform output: `static_web_app_api_key`) and add as `AZURE_STATIC_WEB_APP_API_TOKEN` secret
+5. Push to `main` — GitHub Actions handles all subsequent deployments automatically

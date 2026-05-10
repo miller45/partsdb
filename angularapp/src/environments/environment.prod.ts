@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  // Set ANGULAR_API_URL at build time or replace this with your Azure App Service URL
-  apiUrl: 'https://<your-azure-app>.azurewebsites.net/api'
+  // Matches the Azure App Service name produced by Terraform: ${app_name}-${environment}-api
+  apiUrl: 'https://partsdb-zfx-prod-api.azurewebsites.net/api'
 };
 

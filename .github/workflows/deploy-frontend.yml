@@ -1,0 +1,48 @@
+name: Deploy Frontend to Azure Static Web Apps
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "angularapp/**"
+      - ".github/workflows/deploy-frontend.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "angularapp/**"
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Angular SPA
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: angularapp/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: angularapp
+
+      - name: Build Angular app (production)
+        run: npm run build -- --configuration production
+        working-directory: angularapp
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APP_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "angularapp"
+          output_location: "dist/angularapp/browser"
