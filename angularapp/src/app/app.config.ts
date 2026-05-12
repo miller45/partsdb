@@ -27,10 +27,16 @@ export const appConfig: ApplicationConfig = {
     { provide: MSAL_GUARD_CONFIG, useValue: msalGuardConfig },
     { provide: MSAL_INTERCEPTOR_CONFIG, useValue: msalInterceptorConfig },
 
-    // Initialize MSAL (handles redirect callback) before the app renders
+    // Initialize MSAL and process any pending redirect (auth code) before the
+    // app renders. Without this, MsalGuard fires before handleRedirectObservable()
+    // in AppComponent.ngOnInit, causing the guard to see no account and trigger
+    // a new login redirect that discards the auth code.
     {
       provide: APP_INITIALIZER,
-      useFactory: (msal: IPublicClientApplication) => () => msal.initialize(),
+      useFactory: (msal: IPublicClientApplication) => async () => {
+        await msal.initialize();
+        await msal.handleRedirectPromise();
+      },
       deps: [MSAL_INSTANCE],
       multi: true,
     },
