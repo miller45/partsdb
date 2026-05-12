@@ -69,6 +69,9 @@ local.settings.json
 **/Properties/PublishProfiles/
 publish/
 PublishOutput/
+publish-out/
+**/publish-out/
+*.zip
 
 # Entity Framework Core migrations snapshot (keep migrations, ignore designer)
 *.Designer.cs

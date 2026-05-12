@@ -1,0 +1,43 @@
+output "resource_group_name" {
+  description = "Name of the resource group containing all partsdb resources."
+  value       = azurerm_resource_group.main.name
+}
+
+output "backend_api_url" {
+  description = "HTTPS URL of the .NET backend API."
+  value       = "https://${azurerm_windows_web_app.backend.default_hostname}"
+}
+
+output "backend_app_name" {
+  description = "Azure App Service name for the backend (used for deployment)."
+  value       = azurerm_windows_web_app.backend.name
+}
+
+output "frontend_url" {
+  description = "HTTPS URL of the Angular Static Web App."
+  value       = "https://${azurerm_static_web_app.frontend.default_host_name}"
+}
+
+output "static_web_app_api_key" {
+  description = "Deployment token for the Angular Static Web App (use in CI/CD)."
+  value       = azurerm_static_web_app.frontend.api_key
+  sensitive   = true
+}
+
+# ---------------------------------------------------------------------------
+# Entra ID / OIDC – values needed in the Angular environment files
+# ---------------------------------------------------------------------------
+output "entra_tenant_id" {
+  description = "Azure AD Tenant ID. Set as environment.auth.tenantId in the Angular app."
+  value       = data.azurerm_client_config.current.tenant_id
+}
+
+output "entra_client_id" {
+  description = "Client (Application) ID of the Entra app registration."
+  value       = azuread_application.partsdb.client_id
+}
+
+output "entra_scope" {
+  description = "Full scope URI the Angular app must request when calling the backend API."
+  value       = "api://${data.azurerm_client_config.current.tenant_id}/${local.prefix}/access_as_user"
+}

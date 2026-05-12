@@ -1,0 +1,24 @@
+# Local variable overrides – contains secrets
+terraform.tfvars
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Provider plugins
+.terraform/
+.terraform.lock.hcl
+
+# Override files (local experiments)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+
+version*.plan

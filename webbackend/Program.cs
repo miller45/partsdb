@@ -1,7 +1,20 @@
+using Microsoft.Identity.Web;
 using PartsDb.Api.Services;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ── Authentication – Microsoft Entra ID (OIDC / JWT Bearer) ───────────────────────────
+// Reads AzureAd:Instance / TenantId / ClientId / Audience from configuration.
+// In Azure App Service these come from env vars (AzureAd__TenantId, etc.).
+builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
+
+// Require authentication on every endpoint by default.
+// Individual endpoints can opt out with .AllowAnonymous().
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = options.DefaultPolicy;
+});
 
 // ── Services ──────────────────────────────────────────────────────────────────
 builder.Services.AddControllers()
@@ -43,12 +56,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("FrontendPolicy");
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
 // Health check endpoint – required for Azure App Service health probes
+// AllowAnonymous so load-balancer probes don’t need a bearer token.
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }))
-   .WithTags("Health");
+   .WithTags("Health")
+   .AllowAnonymous();
 
 app.Run();
 
