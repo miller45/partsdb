@@ -1,15 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
   <div class="container-fluid">
     <span class="navbar-brand">PartsDB</span>
-    <div class="navbar-nav">
-      <a class="nav-link" routerLink="/parts" routerLinkActive="active">Parts</a>
-      <a class="nav-link" routerLink="/resistors" routerLinkActive="active">Resistors</a>
-      <a class="nav-link" routerLink="/modules" routerLinkActive="active">Modules</a>
-      <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+    <div class="navbar-nav me-auto">
+      @if (isLoggedIn) {
+        <a class="nav-link" routerLink="/parts" routerLinkActive="active">Parts</a>
+        <a class="nav-link" routerLink="/resistors" routerLinkActive="active">Resistors</a>
+        <a class="nav-link" routerLink="/modules" routerLinkActive="active">Modules</a>
+        <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+      }
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      @if (isLoggedIn) {
+        <span class="text-light small">{{ username }}</span>
+        <button class="btn btn-outline-light btn-sm" (click)="logout()">Sign out</button>
+      } @else {
+        <button class="btn btn-outline-light btn-sm" (click)="login()">Sign in</button>
+      }
     </div>
   </div>
 </nav>
 <div class="container-fluid">
   <router-outlet />
 </div>
-
