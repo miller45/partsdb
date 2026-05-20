@@ -17,9 +17,12 @@ resource "azuread_application" "partsdb" {
 
   # Expose a delegated permission scope so the SPA can request tokens for the API
   api {
+    # Issue v2.0 access tokens (iss = https://login.microsoftonline.com/{tenant}/v2.0)
+    requested_access_token_version = 2
+
     oauth2_permission_scope {
       admin_consent_description  = "Allow the application to access ${local.prefix} on behalf of the signed-in user."
-      admin_consent_display_name  = "Access ${local.prefix}"
+      admin_consent_display_name = "Access ${local.prefix}"
       enabled                    = true
       id                         = random_uuid.oauth2_scope_id.result
       type                       = "User"
