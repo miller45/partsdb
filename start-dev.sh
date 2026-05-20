@@ -9,7 +9,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BACKEND_DIR="$SCRIPT_DIR/webbackend"
+BACKEND_DIR="$SCRIPT_DIR/djangobackend"
 FRONTEND_DIR="$SCRIPT_DIR/angularapp"
 
 # ── Colour helpers ────────────────────────────────────────────────
@@ -24,18 +24,11 @@ ok()   { echo -e "${GREEN}[start-dev]${RESET} $*"; }
 warn() { echo -e "${YELLOW}[start-dev]${RESET} $*"; }
 err()  { echo -e "${RED}[start-dev]${RESET} $*" >&2; }
 
-# ── Resolve dotnet ────────────────────────────────────────────────
-_has_sdk() { dotnet --list-sdks 2>/dev/null | grep -q .; }
-
-if ! command -v dotnet &>/dev/null || ! _has_sdk; then
-  if [ -x "$HOME/.dotnet/dotnet" ]; then
-    export DOTNET_ROOT="$HOME/.dotnet"
-    export PATH="$HOME/.dotnet:$HOME/.dotnet/tools:$PATH"
-    log "Using dotnet from \$HOME/.dotnet"
-  else
-    err "dotnet SDK not found. Install .NET SDK from https://aka.ms/dotnet-download"
-    exit 1
-  fi
+# ── Resolve python ───────────────────────────────────────────────
+PYTHON="${PYTHON:-python3}"
+if ! command -v "$PYTHON" &>/dev/null; then
+  err "python3 not found. Install Python 3.12+."
+  exit 1
 fi
 
 # ── Resolve Node / npx ───────────────────────────────────────────
@@ -59,17 +52,23 @@ cleanup() {
 trap cleanup INT TERM
 
 # ── Start backend ────────────────────────────────────────────────
-log "Building .NET backend…"
-( cd "$BACKEND_DIR" && dotnet build -c Debug --nologo -v quiet 2>&1 ) \
-  || { err "dotnet build failed – aborting."; exit 1; }
+VENV_DIR="$BACKEND_DIR/.venv"
+if [ ! -d "$VENV_DIR" ]; then
+  log "Creating Python virtualenv at $VENV_DIR …"
+  "$PYTHON" -m venv "$VENV_DIR"
+  "$VENV_DIR/bin/pip" install --quiet --upgrade pip
+  "$VENV_DIR/bin/pip" install --quiet -e "$BACKEND_DIR"
+fi
 
-log "Starting .NET backend  →  http://localhost:5287"
-# Run the compiled dll directly to avoid the inotify file-watcher limit
+log "Applying migrations …"
+( cd "$BACKEND_DIR" && "$VENV_DIR/bin/python" manage.py migrate --no-input 2>&1 ) \
+  || { err "migrate failed – aborting."; exit 1; }
+
+log "Starting Django backend  →  http://localhost:8000"
 (
   cd "$BACKEND_DIR"
-  ASPNETCORE_ENVIRONMENT=Development \
-  ASPNETCORE_URLS="http://localhost:5287" \
-  dotnet bin/Debug/net9.0/PartsDb.Api.dll 2>&1 \
+  DJANGO_SETTINGS_MODULE=partsdb.settings.dev \
+  "$VENV_DIR/bin/python" manage.py runserver 0.0.0.0:8000 --noreload 2>&1 \
     | sed "s/^/$(printf '\033[0;36m')[API]$(printf '\033[0m') /"
 ) &
 BACKEND_PID=$!
@@ -85,8 +84,8 @@ FRONTEND_PID=$!
 ok "Both services running. Press Ctrl+C to stop."
 echo ""
 echo -e "  ${GREEN}Frontend:${RESET} http://localhost:4200"
-echo -e "  ${CYAN}Backend:${RESET}  http://localhost:5287"
-echo -e "  ${CYAN}Swagger:${RESET}  http://localhost:5287/swagger"
+echo -e "  ${CYAN}Backend:${RESET}  http://localhost:8000"
+echo -e "  ${CYAN}API docs:${RESET} http://localhost:8000/api/docs"
 echo ""
 
 # ── Wait for either process to exit ──────────────────────────────

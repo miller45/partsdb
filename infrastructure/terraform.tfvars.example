@@ -11,3 +11,21 @@ tags = {
   project = "partsdb"
   owner   = "your-team"
 }
+
+# ── Django backend / Azure SQL ────────────────────────────────────────────
+django_secret_key       = "GENERATE_A_LONG_RANDOM_STRING_HERE"
+
+sql_admin_login         = "partsdbadmin"
+sql_admin_password      = "REPLACE_WITH_STRONG_PASSWORD"
+
+# Entra ID user (or group) that owns the SQL server. Look up via:
+#   az ad signed-in-user show --query '{login:userPrincipalName, oid:id}'
+sql_aad_admin_login     = "your.name@example.com"
+sql_aad_admin_object_id = "00000000-0000-0000-0000-000000000000"
+
+sql_db_sku              = "Basic"   # Basic | S0 | GP_S_Gen5_1 (serverless)
+
+# Override only the SQL Server's region. Leave empty to use var.location.
+# Some subscriptions are restricted from provisioning Azure SQL in
+# certain regions (notably westeurope) – set to e.g. "northeurope".
+sql_location            = ""

@@ -6,7 +6,7 @@
 $ErrorActionPreference = 'Stop'
 
 $ScriptDir   = $PSScriptRoot
-$BackendDir  = Join-Path $ScriptDir 'webbackend'
+$BackendDir  = Join-Path $ScriptDir 'djangobackend'
 $FrontendDir = Join-Path $ScriptDir 'angularapp'
 
 # -- Colour helpers ------------------------------------------
@@ -15,24 +15,14 @@ function ok   { param($msg) Write-Host "[start-dev] $msg" -ForegroundColor Green
 function warn { param($msg) Write-Host "[start-dev] $msg" -ForegroundColor Yellow }
 function err  { param($msg) Write-Host "[start-dev] $msg" -ForegroundColor Red    }
 
-# -- Resolve dotnet ------------------------------------------
-$dotnetOk = $false
-try {
-    $sdks = & dotnet --list-sdks 2>$null
-    if ($sdks) { $dotnetOk = $true }
-} catch {}
-
-if (-not $dotnetOk) {
-    $localDotnet = Join-Path $env:USERPROFILE '.dotnet\dotnet.exe'
-    if (Test-Path $localDotnet) {
-        $env:DOTNET_ROOT = Join-Path $env:USERPROFILE '.dotnet'
-        $env:PATH = "$env:DOTNET_ROOT;$env:DOTNET_ROOT\tools;$env:PATH"
-        log "Using dotnet from `$env:USERPROFILE\.dotnet"
-    } else {
-        err "dotnet SDK not found. Install .NET SDK from https://aka.ms/dotnet-download"
-        exit 1
-    }
+# -- Resolve python -----------------------------------------
+$pythonCmd = Get-Command python -ErrorAction SilentlyContinue
+if (-not $pythonCmd) { $pythonCmd = Get-Command python3 -ErrorAction SilentlyContinue }
+if (-not $pythonCmd) {
+    err "python (3.12+) not found. Install from https://www.python.org/downloads/"
+    exit 1
 }
+$Python = $pythonCmd.Source
 
 # -- Resolve Node / npx --------------------------------------
 if (-not (Get-Command npx -ErrorAction SilentlyContinue)) {
@@ -40,13 +30,24 @@ if (-not (Get-Command npx -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
-# -- Build backend -------------------------------------------
-log "Building .NET backend..."
+# -- Set up Python virtualenv --------------------------------
+$VenvDir    = Join-Path $BackendDir '.venv'
+$VenvPython = Join-Path $VenvDir 'Scripts\python.exe'
+if (-not (Test-Path $VenvPython)) {
+    log "Creating Python virtualenv at $VenvDir ..."
+    & $Python -m venv $VenvDir
+    & $VenvPython -m pip install --quiet --upgrade pip
+    & $VenvPython -m pip install --quiet -e $BackendDir
+}
+
+# -- Migrate database ----------------------------------------
+log "Applying migrations ..."
 Push-Location $BackendDir
 try {
-    & dotnet build -c Debug --nologo -v quiet
+    $env:DJANGO_SETTINGS_MODULE = 'partsdb.settings.dev'
+    & $VenvPython manage.py migrate --no-input
     if ($LASTEXITCODE -ne 0) {
-        err "dotnet build failed -- aborting."
+        err "migrate failed -- aborting."
         exit 1
     }
 } finally {
@@ -54,14 +55,13 @@ try {
 }
 
 # -- Start backend -------------------------------------------
-log "Starting .NET backend  ->  http://localhost:5287"
+log "Starting Django backend  ->  http://localhost:8000"
 $backendJob = Start-Job -ScriptBlock {
-    param($dir)
+    param($dir, $py)
     Set-Location $dir
-    $env:ASPNETCORE_ENVIRONMENT = 'Development'
-    $env:ASPNETCORE_URLS        = 'http://localhost:5287'
-    & dotnet bin/Debug/net9.0/PartsDb.Api.dll 2>&1 | ForEach-Object { "[API] $_" }
-} -ArgumentList $BackendDir
+    $env:DJANGO_SETTINGS_MODULE = 'partsdb.settings.dev'
+    & $py manage.py runserver 0.0.0.0:8000 --noreload 2>&1 | ForEach-Object { "[API] $_" }
+} -ArgumentList $BackendDir, $VenvPython
 
 # Give the backend a moment to start
 Start-Sleep -Seconds 2
@@ -77,8 +77,8 @@ $frontendJob = Start-Job -ScriptBlock {
 ok "Both services running. Press Ctrl+C to stop."
 Write-Host ""
 Write-Host "  Frontend: http://localhost:4200" -ForegroundColor Green
-Write-Host "  Backend:  http://localhost:5287" -ForegroundColor Cyan
-Write-Host "  Swagger:  http://localhost:5287/swagger" -ForegroundColor Cyan
+Write-Host "  Backend:  http://localhost:8000" -ForegroundColor Cyan
+Write-Host "  API docs: http://localhost:8000/api/docs" -ForegroundColor Cyan
 Write-Host ""
 
 # -- Stream output and wait ----------------------------------
