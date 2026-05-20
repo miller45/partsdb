@@ -1,8 +1,8 @@
-"""Import the legacy webbackend JSON files into the Django database.
+"""Import the seed JSON files into the Django database.
 
 Usage::
 
-    python manage.py import_json --data-dir ../webbackend/Data [--flush]
+    python manage.py import_json --data-dir seed_data [--flush]
 
 The command is idempotent: when ``--flush`` is given, existing rows are
 deleted first; otherwise rows are upserted by their natural key
@@ -23,12 +23,12 @@ from parts.services import coerce_int
 
 
 class Command(BaseCommand):
-    help = "Import legacy webbackend/Data/*.json into the Django database."
+    help = "Import seed_data/*.json into the Django database."
 
     def add_arguments(self, parser) -> None:
         parser.add_argument(
             "--data-dir",
-            default="../webbackend/Data",
+            default="seed_data",
             help="Path to the directory containing the JSON files.",
         )
         parser.add_argument(

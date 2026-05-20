@@ -5,7 +5,6 @@ app_name        = "partsdb"
 environment     = "prod"          # dev | staging | prod
 location        = "westeurope"    # e.g. eastus, northeurope, westeurope
 app_service_sku = "B1"            # B1 (cheapest), B2, S1, P1v3, …
-dotnet_version  = "9.0"
 
 tags = {
   project = "partsdb"

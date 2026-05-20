@@ -30,15 +30,23 @@ class EntraJWTBearer(HttpBearer):
         # internally between requests.
         self._oidc = OIDCAuthenticationBackend()
         tenant = settings.AZURE_AD_TENANT_ID
-        self._expected_issuer = (
-            f"https://login.microsoftonline.com/{tenant}/v2.0" if tenant else None
+        # Entra issues either v2 tokens (iss …/{tenant}/v2.0) or v1 tokens
+        # (iss https://sts.windows.net/{tenant}/) depending on the app's
+        # `requestedAccessTokenVersion`. Accept both.
+        self._expected_issuers = (
+            (
+                f"https://login.microsoftonline.com/{tenant}/v2.0",
+                f"https://sts.windows.net/{tenant}/",
+            )
+            if tenant
+            else ()
         )
         self._expected_audience = settings.AZURE_AD_AUDIENCE or None
 
     def authenticate(self, request, token: str) -> dict[str, Any] | None:
         if not token:
             return None
-        if not self._expected_audience or not self._expected_issuer:
+        if not self._expected_audience or not self._expected_issuers:
             logger.error("Entra auth not configured: AZURE_AD_TENANT_ID / AZURE_AD_AUDIENCE missing")
             return None
 
@@ -62,10 +70,10 @@ class EntraJWTBearer(HttpBearer):
                 logger.warning("JWT audience mismatch: got %r, expected %r", aud, self._expected_audience)
                 return None
 
-            # 3. Issuer check.
+            # 3. Issuer check (accept v1 or v2).
             iss = claims.get("iss")
-            if iss != self._expected_issuer:
-                logger.warning("JWT issuer mismatch: got %r, expected %r", iss, self._expected_issuer)
+            if iss not in self._expected_issuers:
+                logger.warning("JWT issuer mismatch: got %r, expected one of %r", iss, self._expected_issuers)
                 return None
 
             # 4. Verify exp / nbf / iat with PyJWT. Signature was already

@@ -5,7 +5,7 @@ from typing import Any
 
 
 def coerce_int(value: Any) -> int | None:
-    """Mirror of webbackend ``FlexibleIntConverter``.
+    """Coerce a JSON value to int, mirroring the legacy FlexibleIntConverter.
 
     Accepts ``int``, numeric ``str``, or ``None``/empty/non-numeric and
     returns ``int`` or ``None``.

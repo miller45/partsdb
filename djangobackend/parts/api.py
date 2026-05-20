@@ -1,6 +1,7 @@
 """django-ninja API mirroring the .NET controllers under /api."""
 from __future__ import annotations
 
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI
 from ninja.errors import HttpError
@@ -20,6 +21,11 @@ api = NinjaAPI(
     version="1.0.0",
     auth=EntraJWTBearer(),
     urls_namespace="api",
+    # Hide the auto-generated Swagger UI / OpenAPI spec in production so
+    # the API surface is not anonymously discoverable. In dev (DEBUG=True)
+    # they remain available at /api/docs and /api/openapi.json.
+    docs_url="/docs" if settings.DEBUG else None,
+    openapi_url="/openapi.json" if settings.DEBUG else None,
 )
 
 

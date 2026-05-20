@@ -1,9 +1,5 @@
 # ---------------------------------------------------------------------------
 # Django backend on Linux App Service + Azure SQL Database
-#
-# This file provisions the second backend (Django/Python) alongside the
-# existing .NET Windows App Service. After the cutover, the .NET resources
-# in main.tf can be removed.
 # ---------------------------------------------------------------------------
 
 # ── Linux App Service Plan (Python) ────────────────────────────────────────
@@ -121,10 +117,10 @@ resource "azurerm_mssql_database" "partsdb" {
 #
 #   Connect to the SQL DB as the Entra AAD admin and run:
 #
-#     CREATE USER [partsdb-prod-django-api] FROM EXTERNAL PROVIDER;
-#     ALTER ROLE db_datareader ADD MEMBER [partsdb-prod-django-api];
-#     ALTER ROLE db_datawriter ADD MEMBER [partsdb-prod-django-api];
-#     ALTER ROLE db_ddladmin   ADD MEMBER [partsdb-prod-django-api];
+#     CREATE USER [partsdb-iuxz-prod-django-api] FROM EXTERNAL PROVIDER;
+#     ALTER ROLE db_datareader ADD MEMBER [partsdb-iuxz-prod-django-api];
+#     ALTER ROLE db_datawriter ADD MEMBER [partsdb-iuxz-prod-django-api];
+#     ALTER ROLE db_ddladmin   ADD MEMBER [partsdb-iuxz-prod-django-api];
 #
 #   Substitute the actual App Service name (matches the principal that the
 #   system-assigned identity creates in Entra). After that, the App Service

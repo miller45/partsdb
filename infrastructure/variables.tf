@@ -22,12 +22,6 @@ variable "app_service_sku" {
   default     = "B1"
 }
 
-variable "dotnet_version" {
-  description = "The .NET runtime version for the App Service."
-  type        = string
-  default     = "9.0"
-}
-
 variable "tags" {
   description = "Tags applied to all resources."
   type        = map(string)

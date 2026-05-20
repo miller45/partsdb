@@ -1,4 +1,4 @@
-"""Database models mirroring the .NET DTOs in webbackend/Models/."""
+"""Database models for the parts catalogue."""
 from __future__ import annotations
 
 from django.db import models
